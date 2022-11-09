@@ -4,9 +4,13 @@ from datetime import datetime
 app = Flask(__name__)
 
 
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+
 @app.route("/conversao", methods=["POST", "GET"])
 def conversao():
-
     if request.method == 'GET':
         return render_template("conversao.html")
 
@@ -17,7 +21,6 @@ def conversao():
 
 @app.route("/imc", methods=["POST", "GET"])
 def calculaIMC():
-
     if request.method == 'GET':
         return render_template("imc.html")
 

@@ -1,29 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>conversao</title>
-</head>
-<body>
-    <form 
-    action="/conversao"
-    method="POST">
+{% extends "layout.html" %}
+{% block content %}
 
-        <input 
-        name="valor" 
-        placeholder="digite o valor"
-        type="text">
-
-        <input 
-        value="calcular" 
-        type="submit">
-    </form>
-
-    <div>
-        {{valorReais}}
+<form action="/conversao" method="POST">
+    <div class="mb-3">
+        <label for="valor" class="form-label"></label>
+        <input name="valor" placeholder="15" id="valor" type="text">
+        <input value="calcular" type="submit">
     </div>
+</form>
 
-</body>
-</html>
+<div>
+    {{ valorReais }}
+</div>
+
+{% endblock %}
