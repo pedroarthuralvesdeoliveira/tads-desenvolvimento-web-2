@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cliente</title>
+</head>
+
+<body>
+    <form action="/cliente" method="POST">
+        <input name="nome" placeholder="digite o nome" type="text">
+        <input name="id" placeholder="digite o id" type="text">
+        <input name="cpf" placeholder="digite o cpf" type="text">
+        <input name="dataNascimento" placeholder="digite a data de nascimento" type="text">
+        <input name="telefone" placeholder="digite o telefone" type="text">
+        <input name="email" placeholder="digite o email" type="text">
+        <input name="senha" placeholder="digite a senha" type="text">
+        <input name="confirmacaoSenha" placeholder="digite a confirmação da senha" type="text">
+        <input value="cadastrar" type="submit">
+    </form>
+
+    <div>
+        {{nome}}
+    </div>
+</body>
+
+</html>
