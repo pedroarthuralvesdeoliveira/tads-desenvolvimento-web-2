@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request
 from datetime import datetime
+from Cliente import Cliente
 
-from Entities.Cliente import Cliente
+from entidades import Produto
+from produtoDao import ProdutoDao
 
 app = Flask(__name__)
 
@@ -54,6 +56,19 @@ def cliente():
                       cpf, dataNascimento, telefone)
 
     return render_template("cliente.html", nome=cliente.nome)
+
+
+@app.route("/produto", methods=["POST", "GET"])
+def produto():
+    if request.method == 'GET':
+        return render_template("produto.html")
+    nome = request.form.get("nome")
+    categoria = request.form.get("categoria")
+
+    produto = Produto(nome, categoria)
+    produtoDao = ProdutoDao()
+    produtoDao.insert(produto)
+    return render_template("produto.html", nome=produto.nome)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,7 @@
+{
+    "python.linting.enabled": true,
+    "python.defaultInterpreterPath": "C:\\Users\\pa\\AppData\\Local\\Programs\\Python\\Python310\\python.exe",
+    "python.analysis.extraPaths": [
+        "./Entities"
+    ]
+}
