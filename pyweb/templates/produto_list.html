@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block content %}
+<main>
+
+    <ul class="page-nav">
+        <li>
+            <a class="btn btn-outline-success" href="{{ url_for('produto_new') }}">Cadastro</a>
+        </li>
+    </ul>
+
+    <h2>Lista de produtos</h2>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th class="actions">⌘</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in produtos %}
+            <tr>
+                <td>{{produto.id}}</td>
+                <td>
+                    <a title="editar" href="#">
+                        {{produto.nome}}
+                    </a>
+                </td>
+                <td>{{produto.categoria}}</td>
+                <td class="actions">
+                    <a title="editar" class="btn btn-warning" href="#">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                    <a title="deletar" class="btn btn-danger" href="#">
+                        <i class="bi bi-x-circle"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+
+{% endblock %}
