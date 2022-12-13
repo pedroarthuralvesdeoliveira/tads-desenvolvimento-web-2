@@ -1,23 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
+{% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produto</title>
-</head>
+<ul class="page-nav">
+    <li>
+        <a class="btn btn-outline-success" href="{{ url_for('produto_index') }}">Listar</a>
+    </li>
+</ul>
 
-<body>
-    <form action="/produto" method="POST">
-        <input name="nome" placeholder="digite o nome" type="text">
-        <input name="categoria" placeholder="digite a categoria" type="text">
-        <input value="cadastrar" type="submit">
-    </form>
+{% if produto %}
+<h1><u>Atualizar</u> produto</h1>
+{% else %}
+<h1>Cadastro produto</h1>
+{% endif %}
 
-    <div>
-        {{nome}}
+
+<form class="crud c2" action="/produto/{{action}}" method="POST">
+    <input type="hidden" value={{produto.id}} name="id">
+
+    <div class="form-group">
+        <label for="nome">nome</label>
+        <input value="{{produto.nome}}" type="text" class="form-control" name="nome" id="nome" required
+            autocomplete="off">
     </div>
-</body>
 
-</html>
+    <div class="form-group">
+        <label for="email">categoria</label>
+        <input value="{{produto.categoria}}" type="text" class="form-control" name="categoria" id="categoria" required>
+    </div>
+
+    {% if produto %}
+    <button type="submit" class="btn btn-danger">Atualizar</button>
+    {% else %}
+    <button type="submit" class="btn btn-primary">cadastrar</button>
+    {% endif %}
+</form>
+
+{% endblock %}

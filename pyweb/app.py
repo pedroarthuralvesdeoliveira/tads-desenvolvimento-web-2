@@ -178,10 +178,10 @@ def produto_update():
     # obtem o id que foi setado no form
     id = request.form.get("id")
 
-    # obtem o cliente que esta no banco
+    # obtem o produto que esta no banco
     produto = dao.get_produto(id)
 
-    # atualiza os campos do cliente (todos os campos)
+    # atualiza os campos do produto (todos os campos)
     produto.nome = request.form.get("nome")
     produto.categoria = request.form.get("categoria")
 

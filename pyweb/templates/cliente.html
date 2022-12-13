@@ -1,29 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "layout.html" %}
+{% block content %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cliente</title>
-</head>
+<ul class="page-nav">
+    <li>
+        <a class="btn btn-outline-success" href="{{ url_for('cliente_index') }}">Listar</a>
+    </li>
+</ul>
 
-<body>
-    <form action="/cliente" method="POST">
-        <input name="nome" placeholder="digite o nome" type="text">
-        <input name="id" placeholder="digite o id" type="text">
-        <input name="cpf" placeholder="digite o cpf" type="text">
-        <input name="dataNascimento" placeholder="digite a data de nascimento" type="text">
-        <input name="telefone" placeholder="digite o telefone" type="text">
-        <input name="email" placeholder="digite o email" type="text">
-        <input name="senha" placeholder="digite a senha" type="text">
-        <input name="confirmacaoSenha" placeholder="digite a confirmação da senha" type="text">
-        <input value="cadastrar" type="submit">
-    </form>
+{% if cliente %}
+<h1><u>Atualizar</u> cliente</h1>
+{% else %}
+<h1>Cadastro cliente</h1>
+{% endif %}
 
-    <div>
-        {{nome}}
+
+<form class="crud c2" action="/cliente/{{action}}" method="POST">
+
+    <input type="hidden" value={{cliente.id}} name="id">
+
+    <div class="form-group">
+        <label for="nome">nome</label>
+        <input value="{{cliente.nome}}" type="text" class="form-control" name="nome" id="nome" required
+            autocomplete="off">
     </div>
-</body>
 
-</html>
+    <div class="form-group">
+        <label for="email">email</label>
+        <input value="{{cliente.email}}" type="email" class="form-control" name="email" id="email" required>
+    </div>
+
+    <div class="form-group">
+        <label for="cep">cep</label>
+        <input value="{{cliente.cep}}" type="text" class="form-control" name="cep" id="cep" placeholder="99000-100">
+    </div>
+
+    <div class="form-group">
+        <label for="cpf">cpf</label>
+        <input value="{{cliente.cpf}}" type="text" class="form-control" name="cpf" id="cpf"
+            placeholder="910.010.000-10">
+    </div>
+
+    {% if cliente %}
+    <button type="submit" class="btn btn-danger">Atualizar</button>
+    {% else %}
+    <button type="submit" class="btn btn-primary">cadastrar</button>
+    {% endif %}
+
+
+</form>
+
+{% endblock %}
