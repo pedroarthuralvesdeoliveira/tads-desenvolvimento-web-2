@@ -59,7 +59,8 @@ class ProdutoDao:
             """,
             (
                 produto.nome,
-                produto.categoria
+                produto.categoria,
+                produto.id
             )
         )
         conn.commit()

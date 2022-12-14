@@ -95,8 +95,8 @@ class ClienteDao:
         row = res.fetchone()
 
         cliente = Cliente(
-            row[1],
-            row[2],
+            nome=row[1],
+            email=row[2],
             id=row[0],
             cpf=row[3],
             cep=row[4],
