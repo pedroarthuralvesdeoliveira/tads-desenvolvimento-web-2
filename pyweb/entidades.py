@@ -9,7 +9,8 @@ class Cliente:
 
 
 class Produto:
-    def __init__(self, nome, categoria, id=None):
+    def __init__(self, nome, categoria, preco, id=None):
         self.nome = nome
         self.categoria = categoria
+        self.preco = preco
         self.id = id

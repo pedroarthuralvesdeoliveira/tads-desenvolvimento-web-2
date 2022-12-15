@@ -18,6 +18,8 @@ def index():
 def reset_db():
     from database import Database
     Database.create_db()
+    dao = ProdutoDao()
+    dao.import_csv()
     flash(f'Banco de dados Resetado', 'success')
     return redirect(url_for("cliente_index"))
 
@@ -150,8 +152,9 @@ def produto_edit(id):
 def produto_create():
     nome = request.form.get("nome")
     categoria = request.form.get("categoria")
+    preco = request.form.get("preco")
 
-    produto = Produto(nome, categoria)
+    produto = Produto(nome, categoria, preco)
 
     dao = ProdutoDao()
     dao.save(produto)
@@ -184,6 +187,7 @@ def produto_update():
     # atualiza os campos do produto (todos os campos)
     produto.nome = request.form.get("nome")
     produto.categoria = request.form.get("categoria")
+    produto.preco = request.form.get("preco")
 
     dao.update(produto)
 
@@ -202,7 +206,13 @@ def produto_delete(id):
     return redirect(url_for('produto_index'))
 
 
+@app.route("/produto/busca", methods=["POST"])
+def busca_produto():
+    dao = ProdutoDao()
+    nome = request.form.get("nome")
+    produtos = dao.busca_produto(nome)
+    return render_template("produto_list.html", produtos=produtos)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
-    # option 2 (terminal):
-    # flask run

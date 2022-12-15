@@ -23,22 +23,6 @@ class ClienteDao:
         conn.close()
         return results
 
-    def insert(self, cliente):
-        from database import Database
-        conn = Database.get_connection()
-        conn.execute(
-            """
-            INSERT INTO cliente (nome, cpf, cep, email) VALUES (?, ?, ?, ?)
-            """,
-            (
-                cliente.nome,
-                cliente.cpf,
-                cliente.cep,
-                cliente.email
-            )
-        )
-        conn.commit()
-
     def save(self, cliente):
         # obtem uma conexao com o banco:
         conn = Database.get_connection()

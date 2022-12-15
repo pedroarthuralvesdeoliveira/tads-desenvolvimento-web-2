@@ -1,3 +1,4 @@
+import csv
 from database import Database
 from entidades import Produto
 
@@ -6,7 +7,7 @@ class ProdutoDao:
     def find_all(self):
         conn = Database.get_connection()
         res = conn.execute("""
-        SELECT id, nome, categoria FROM produto
+        SELECT id, nome, categoria, preco FROM produto
         """
                            )
         results = res.fetchall()
@@ -15,36 +16,24 @@ class ProdutoDao:
                 "id": produto[0],
                 "nome": produto[1],
                 "categoria": produto[2],
+                "preco": produto[3]
             } for produto in results]
 
         conn.close()
         return results
-
-    def insert(self, produto):
-        from database import Database
-        conn = Database.get_connection()
-        conn.execute(
-            """
-            INSERT INTO produto (nome, categoria) VALUES (?, ?)
-            """,
-            (
-                produto.nome,
-                produto.categoria
-            )
-        )
-        conn.commit()
 
     def save(self, produto):
         conn = Database.get_connection()
         conn.execute(
             f"""
             INSERT INTO produto (
-                nome, cpf          
-            ) VALUES (?, ?)
+                nome, categoria, preco          
+            ) VALUES (?, ?, ?)
             """,
             (
                 produto.nome,
-                produto.categoria
+                produto.categoria,
+                produto.preco
             )
         )
         conn.commit()
@@ -54,12 +43,13 @@ class ProdutoDao:
         conn = Database.get_connection()
         conn.execute(
             f"""
-            UPDATE produto SET nome = ?, categoria = ?
+            UPDATE produto SET nome = ?, categoria = ?, preco = ?
             WHERE id = ?
             """,
             (
                 produto.nome,
                 produto.categoria,
+                produto.preco,
                 produto.id
             )
         )
@@ -79,7 +69,7 @@ class ProdutoDao:
     def get_produto(self, id):
         conn = Database.get_connection()
         res = conn.execute(f"""
-        SELECT id, nome, categoria  FROM produto WHERE id = {id}
+        SELECT id, nome, categoria, preco  FROM produto WHERE id = {id}
         """
                            )
         row = res.fetchone()
@@ -87,7 +77,38 @@ class ProdutoDao:
         produto = Produto(
             categoria=row[2],
             id=row[0],
-            nome=row[1]
+            nome=row[1],
+            preco=row[3]
         )
         conn.close()
         return produto
+
+    def busca_produto(self, nome):
+        conn = Database.get_connection()
+        res = conn.execute(f"""
+        SELECT id, nome, categoria, preco  FROM produto WHERE nome LIKE '%{nome}%'
+        """
+                           )
+        produtos = res.fetchall()
+        produtos = [
+            {
+                "id": produto[0],
+                "nome": produto[1],
+                "categoria": produto[2],
+                "preco": produto[3]
+            } for produto in produtos]
+
+        conn.close()
+        return produtos
+
+    def import_csv(self):
+        dao = ProdutoDao()
+        with open('lista-500.csv', encoding='utf-8') as arquivo_referencia:
+            tabela = csv.reader(arquivo_referencia, delimiter=',')
+            for item in tabela:
+                nome = item[1]
+                categoria = item[2]
+                preco = item[3]
+                produto = Produto(nome, categoria, preco)
+
+                dao.save(produto)

@@ -20,12 +20,13 @@ VALUES
 CREATE TABLE produto(
     id integer PRIMARY KEY AUTOINCREMENT NOT NULL,
     nome text NOT NULL,
-    categoria text NOT NULL
+    categoria text NOT NULL,
+    preco real not null
 );
 
-INSERT INTO produto (nome, categoria)
+INSERT INTO produto (nome, categoria, preco)
 VALUES
-    ('Cenoura', 'Legume'),
-    ("Banana", "Fruta"),
-    ("Maçã", "Fruta"),
-    ("Laranja", "Fruta");
+    ('Cenoura', 'Legume', 0.75),
+    ("Banana", "Fruta", 4.50),
+    ("Maçã", "Fruta", 5.50),
+    ("Laranja", "Fruta", 3.25);

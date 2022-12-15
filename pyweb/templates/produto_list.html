@@ -10,12 +10,18 @@
 
     <h2>Lista de produtos</h2>
 
+    <form action="{{ url_for('busca_produto') }}" method="POST">
+        <input class="form-control me-2" name="nome" type="text" placeholder="Pesquisar" aria-label="Search">
+        <input type="submit" value="Pesquisar">
+    </form>
+
     <table class="table table-hover">
         <thead>
             <tr>
                 <th>ID</th>
                 <th>Nome</th>
                 <th>Categoria</th>
+                <th>Preço</th>
                 <th class="actions">⌘</th>
             </tr>
         </thead>
@@ -24,13 +30,14 @@
             <tr>
                 <td>{{produto.id}}</td>
                 <td>
-                    <a title="editar" href="#">
+                    <a title="editar" href="{{ url_for('produto_edit', id=produto.id) }}">
                         {{produto.nome}}
                     </a>
                 </td>
                 <td>{{produto.categoria}}</td>
+                <td>{{produto.preco}}</td>
                 <td class="actions">
-                    <a title="editar" class="btn btn-warning" href="{{ url_for('produto_edit', id=produto.id) }}">
+                    <a title="editar" class="btn btn-warning" href=" {{ url_for('produto_edit', id=produto.id) }} ">
                         <i class="bi bi-pencil-square"></i>
                     </a>
                     <a title="deletar" class="btn btn-danger" href="{{ url_for('produto_delete', id=produto.id) }}">
