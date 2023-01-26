@@ -3,6 +3,7 @@ from flask import (
 )
 from entidades import Cliente, Produto
 from clienteDao import ClienteDao
+from favoritosDao import FavoritoDao
 from produtoDao import ProdutoDao
 
 app = Flask(__name__)
@@ -212,6 +213,25 @@ def busca_produto():
     nome = request.form.get("nome")
     produtos = dao.busca_produto(nome)
     return render_template("produto_list.html", produtos=produtos)
+
+# ==================================
+# ROTAS (Favoritos)
+# ==================================
+
+
+@app.route("/favoritos/index", methods=["GET"])
+def favoritos_index():
+    dc = FavoritoDao()
+    produtos = dc.find_all()
+    return render_template("favoritos_list.html", produtos=produtos)
+
+
+@app.route("/produto/remover_favorito/<id>", methods=["GET"])
+def remover_favorito(id):
+    dao = ProdutoDao()
+    dao.delete(id)
+    flash(f'Produto tirado dos favoritos com sucesso!', 'success')
+    return redirect(url_for('favoritos_list'))
 
 
 if __name__ == "__main__":

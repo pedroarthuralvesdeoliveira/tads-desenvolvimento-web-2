@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS cliente;
 DROP TABLE IF EXISTS produto;
+DROP TABLE IF EXISTS favoritos;
 
 CREATE TABLE cliente(
     id integer PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -30,3 +31,12 @@ VALUES
     ("Banana", "Fruta", 4.50),
     ("Maçã", "Fruta", 5.50),
     ("Laranja", "Fruta", 3.25);
+
+CREATE TABLE favoritos (
+    id integer AUTOINCREMENT NOT NULL,
+    clienteID integer NOT NULL,
+    produtoID integer NOT NULL,
+    FOREIGN KEY (clienteID) REFERENCES cliente(id),
+    FOREIGN KEY (produtoID) REFERENCES produto(id),
+    PRIMARY KEY (id, clienteID, produtoID)
+);  

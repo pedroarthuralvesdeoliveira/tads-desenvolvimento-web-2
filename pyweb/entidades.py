@@ -14,3 +14,9 @@ class Produto:
         self.categoria = categoria
         self.preco = preco
         self.id = id
+
+
+class Favorito:
+    def __init__(self, clienteID, produtoID):
+        self.clienteID = clienteID
+        self.produtoID = produtoID
