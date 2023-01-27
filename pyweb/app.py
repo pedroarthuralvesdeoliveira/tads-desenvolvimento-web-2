@@ -29,6 +29,16 @@ def reset_db():
 # ROTAS (CLIENTE)
 # ==================================
 
+@app.route("/cliente/edit/<id>", methods=["GET"])
+def cliente_edit(id):
+    dao = ClienteDao()
+    cliente = dao.get_cliente(id)
+    return render_template("cliente.html",
+                           cliente=cliente,
+                           action='update'
+                           )
+
+
 @app.route("/cliente/index", methods=["GET"])
 def cliente_index():
     dc = ClienteDao()
@@ -41,16 +51,6 @@ def cliente_new():
     return render_template("cliente.html",
                            action='create',
                            cliente=None)
-
-
-@app.route("/cliente/edit/<id>", methods=["GET"])
-def cliente_edit(id):
-    dao = ClienteDao()
-    cliente = dao.get_cliente(id)
-    return render_template("cliente.html",
-                           cliente=cliente,
-                           action='update'
-                           )
 
 # -------
 # CRUD
@@ -76,6 +76,16 @@ def cliente_create():
     flash(f'Cliente "{nome}" cadastrado!', 'success')
 
     return redirect(url_for("cliente_index"))
+
+# DELETE
+
+
+@app.route("/cliente/delete/<id>", methods=["GET"])
+def cliente_delete(id):
+    dao = ClienteDao()
+    dao.delete(id)
+    flash(f'Cliente removido com sucesso!', 'success')
+    return redirect(url_for('cliente_index'))
 
 
 # READ
@@ -111,42 +121,43 @@ def cliente_update():
 
     return redirect(url_for("cliente_index"))
 
+# ==================================
+# ROTAS (Favoritos)
+# ==================================
 
-# DELETE
-@app.route("/cliente/delete/<id>", methods=["GET"])
-def cliente_delete(id):
-    dao = ClienteDao()
-    dao.delete(id)
-    flash(f'Cliente removido com sucesso!', 'success')
-    return redirect(url_for('cliente_index'))
+
+@app.route("/favoritos/index", methods=["GET"])
+def favoritos_index():
+    dc = FavoritoDao()
+    produtos = dc.find_all()
+    return render_template("favoritos_list.html", produtos=produtos)
+
+
+@app.route("/produto/remover_favorito/<id>", methods=["GET"])
+def remover_favorito(id):
+    dao = ProdutoDao()
+    dao.remover_favorito(id)
+    flash(f'Produto tirado dos favoritos com sucesso!', 'success')
+    return redirect(url_for('favoritos_index'))
 
 # ==================================
 # ROTAS (PRODUTO)
 # ==================================
 
 
-@app.route("/produto/index", methods=["GET"])
-def produto_index():
-    dc = ProdutoDao()
-    produtos = dc.find_all()
+@app.route("/produto/busca", methods=["POST"])
+def busca_produto():
+    dao = ProdutoDao()
+    nome = request.form.get("nome")
+    produtos = dao.busca_produto(nome)
     return render_template("produto_list.html", produtos=produtos)
 
 
-@app.route("/produto/new", methods=["GET"])
-def produto_new():
-    return render_template("produto.html",
-                           action='create',
-                           produto=None)
-
-
-@app.route("/produto/edit/<id>", methods=["GET"])
-def produto_edit(id):
+@app.route("/produto/favoritar/<id>", methods=["GET"])
+def favoritar(id):
     dao = ProdutoDao()
-    produto = dao.get_produto(id)
-    return render_template("produto.html",
-                           produto=produto,
-                           action='update'
-                           )
+    produto = dao.favoritar(id)
+    return redirect(url_for('favoritos_index'))
 
 
 @app.route("/produto/create", methods=["POST"])
@@ -166,12 +177,46 @@ def produto_create():
     return redirect(url_for("produto_index"))
 
 
+# DELETE
+@app.route("/produto/delete/<id>", methods=["GET"])
+def produto_delete(id):
+    dao = ProdutoDao()
+    dao.delete(id)
+    flash(f'Produto removido com sucesso!', 'success')
+    return redirect(url_for('produto_index'))
+
+
+@app.route("/produto/edit/<id>", methods=["GET"])
+def produto_edit(id):
+    dao = ProdutoDao()
+    produto = dao.get_produto(id)
+    return render_template("produto.html",
+                           produto=produto,
+                           action='update'
+                           )
+
 # READ
+
+
 @app.route("/produto/<id>", methods=["GET"])
 def produto_id(id):
     dc = ProdutoDao()
     produto = dc.get_produto(id)
     return produto
+
+
+@app.route("/produto/index", methods=["GET"])
+def produto_index():
+    dc = ProdutoDao()
+    produtos = dc.find_all()
+    return render_template("produto_list.html", produtos=produtos)
+
+
+@app.route("/produto/new", methods=["GET"])
+def produto_new():
+    return render_template("produto.html",
+                           action='create',
+                           produto=None)
 
 
 # UPDATE
@@ -196,42 +241,6 @@ def produto_update():
     flash(f'Produto "{produto.nome}" Atualizado!', 'success')
 
     return redirect(url_for("produto_index"))
-
-
-# DELETE
-@app.route("/produto/delete/<id>", methods=["GET"])
-def produto_delete(id):
-    dao = ProdutoDao()
-    dao.delete(id)
-    flash(f'Produto removido com sucesso!', 'success')
-    return redirect(url_for('produto_index'))
-
-
-@app.route("/produto/busca", methods=["POST"])
-def busca_produto():
-    dao = ProdutoDao()
-    nome = request.form.get("nome")
-    produtos = dao.busca_produto(nome)
-    return render_template("produto_list.html", produtos=produtos)
-
-# ==================================
-# ROTAS (Favoritos)
-# ==================================
-
-
-@app.route("/favoritos/index", methods=["GET"])
-def favoritos_index():
-    dc = FavoritoDao()
-    produtos = dc.find_all()
-    return render_template("favoritos_list.html", produtos=produtos)
-
-
-@app.route("/produto/remover_favorito/<id>", methods=["GET"])
-def remover_favorito(id):
-    dao = ProdutoDao()
-    dao.delete(id)
-    flash(f'Produto tirado dos favoritos com sucesso!', 'success')
-    return redirect(url_for('favoritos_list'))
 
 
 if __name__ == "__main__":

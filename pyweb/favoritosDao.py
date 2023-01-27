@@ -6,7 +6,10 @@ class FavoritoDao:
     def find_all(self):
         conn = Database.get_connection()
         res = conn.execute("""
-        SELECT id, nome, categoria, preco FROM produto
+        SELECT produto.id, nome, categoria, preco 
+        FROM produto
+        INNER JOIN favoritos
+        ON favoritos.produtoID = produto.id
         """
                            )
         results = res.fetchall()
