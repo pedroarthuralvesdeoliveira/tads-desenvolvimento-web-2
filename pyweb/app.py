@@ -133,10 +133,11 @@ def favoritos_index():
     return render_template("favoritos_list.html", produtos=produtos)
 
 
-@app.route("/produto/remover_favorito/<id>", methods=["GET"])
-def remover_favorito(id):
+@app.route("/produto/remover_favorito", methods=["GET"])
+def remover_favorito():
     dao = ProdutoDao()
-    dao.remover_favorito(id)
+    produto_id = request.args.get('produtoID')
+    dao.remover_favorito(produto_id)
     flash(f'Produto tirado dos favoritos com sucesso!', 'success')
     return redirect(url_for('favoritos_index'))
 

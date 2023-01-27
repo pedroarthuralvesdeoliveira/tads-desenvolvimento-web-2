@@ -95,13 +95,13 @@ class ProdutoDao:
 
                 dao.save(produto)
 
-    def remover_favorito(self, id):
+    def remover_favorito(self, produto_id):
         conn = Database.get_connection()
         conn.execute(
             f"""
             DELETE FROM 
                 favoritos 
-            WHERE id = {id}
+            WHERE clienteID = {1} AND produtoID = {produto_id}
             """
         )
         conn.commit()

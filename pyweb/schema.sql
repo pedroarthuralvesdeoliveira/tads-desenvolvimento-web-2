@@ -33,9 +33,10 @@ VALUES
     ("Laranja", "Fruta", 3.25);
 
 CREATE TABLE favoritos (
-    id integer PRIMARY KEY AUTOINCREMENT NOT NULL,
     clienteID integer NOT NULL,
+    data_curtida TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     produtoID integer NOT NULL,
     FOREIGN KEY (clienteID) REFERENCES cliente(id),
-    FOREIGN KEY (produtoID) REFERENCES produto(id)
+    FOREIGN KEY (produtoID) REFERENCES produto(id),
+    PRIMARY KEY (clienteID, produtoID)
 );  
